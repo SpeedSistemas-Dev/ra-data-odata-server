@@ -320,8 +320,26 @@ const ra_data_odata_server = async (
       getOne: async <RecordType extends RaRecord = RaRecord>(
         resource: string,
         params: GetOneParams
-      ) => {
-        return { data: await getEntity<RecordType>(resource, params.id) };
+       ) => {
+
+        const { select = [], expand = [] } = params.meta as Required<GetListParamsWithTypedMeta>['meta'] || {};
+        const odataParams = OData.newOptions();
+        
+        if (select.length > 0) {
+          const selectSet = new Set(select);
+          const uniqueSelectFields = Array.from(selectSet);
+          odataParams.select(uniqueSelectFields.map(capitalize));
+        }
+        
+        if (expand.length > 0) {
+          const expandSet = new Set(expand);
+          const uniqueExpandFields = Array.from(expandSet);
+          odataParams.expand(uniqueExpandFields.map(getExpandString));
+        }
+                
+        let data = await getEntity<RecordType>(resource, params.id, odataParams)        
+        //BySpeed
+        return { data: data.value ? data.value.find((d: any) => true) : data };
       },
 
       getMany: async <RecordType extends RaRecord = RaRecord>(
@@ -332,7 +350,8 @@ const ra_data_odata_server = async (
           getEntity<RecordType>(resource, id)
         );
         const val2 = await Promise.all(res2);
-        return { data: val2 };
+        return { data: val2.map((x) => x.value ? x.value.find((d) => true) : x) };
+        // by Speed return { data: val2 };
       },
 
       getManyReference: async <RecordType extends RaRecord = RaRecord>(
