@@ -350,7 +350,7 @@ const ra_data_odata_server = async (
           getEntity<RecordType>(resource, id)
         );
         const val2 = await Promise.all(res2);
-        return { data: val2.map((x) => x.value ? x.value.find((d) => true) : x) };
+        return { data: val2.map((x: any) => x.value ? x.value.find((d: any) => true) : x) };
         // by Speed return { data: val2 };
       },
 
