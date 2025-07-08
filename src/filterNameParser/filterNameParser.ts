@@ -14,7 +14,8 @@ export type Operator =
 | "boolean"
 | "inc"
 | "inc_any"
-| "ninc_any";
+| "ninc_any"
+  "custom";
 
 export const operators: Operator[] = [
   "q",
@@ -31,6 +32,7 @@ export const operators: Operator[] = [
   "inc",
   "inc_any",
   "ninc_any",
+  "custom",
 ];
 
 export interface FilterNameParserResult {
