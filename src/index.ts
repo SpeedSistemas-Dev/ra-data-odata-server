@@ -245,7 +245,7 @@ const ra_data_odata_server = async (
               filterExpression = filterBuilder.eq(filterValue).build();
               break;
             case "custom":
-              filterExpression = `${fieldName}${filterValue}`;
+              filterExpression = `${fieldName?.replaceAll("#",filterValue??"")}`;
               break;
             case "inc":
               filterExpression = filterValue
