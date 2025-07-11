@@ -408,10 +408,9 @@ const ra_data_odata_server = async (
           getproperty_identifier(resource, keyName, params.id),
           params.data
         );
+        var data = await es.retrieve(getproperty_identifier(resource, keyName, params.id))
         return {
-          data: await es.retrieve(
-            getproperty_identifier(resource, keyName, params.id)
-          ),
+          data: data.value ? data.value.find((d:any) => true) : data 
         };
       },
 
