@@ -424,8 +424,9 @@ const ra_data_odata_server = async (
         const es = client.getEntitySet<RecordType>(resource);
 
         const data = await es.create(params.data);
-
-        return { data: data };
+        return {
+          data: data.value ? data.value.find((d:any) => true) : data 
+        };
       },
 
       delete: async <RecordType extends RaRecord = RaRecord>(
