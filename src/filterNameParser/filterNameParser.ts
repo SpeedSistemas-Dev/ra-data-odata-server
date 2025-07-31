@@ -15,7 +15,7 @@ export type Operator =
 | "inc"
 | "inc_any"
 | "ninc_any"
-  "custom";
+| "custom";
 
 export const operators: Operator[] = [
   "q",
